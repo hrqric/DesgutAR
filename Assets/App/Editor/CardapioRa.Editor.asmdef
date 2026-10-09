@@ -1,0 +1,14 @@
+{
+  "name": "CardapioRa.Editor",
+  "rootNamespace": "CardapioRA.Editor",
+  "references": [
+    "CardapioRa.Runtime",
+    "Unity.XR.ARFoundation",
+    "Unity.XR.ARSubsystems",
+    "Unity.XR.CoreUtils",
+    "Unity.XR.Management.Editor"
+  ],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}
+

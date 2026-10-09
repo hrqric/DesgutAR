@@ -1,0 +1,11 @@
+{
+  "name": "CardapioRa.Runtime",
+  "rootNamespace": "CardapioRA",
+  "references": [
+    "Unity.XR.ARFoundation",
+    "Unity.XR.ARSubsystems",
+    "Unity.XR.CoreUtils"
+  ],
+  "autoReferenced": true
+}
+

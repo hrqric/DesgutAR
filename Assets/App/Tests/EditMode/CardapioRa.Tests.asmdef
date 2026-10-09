@@ -1,0 +1,9 @@
+{
+  "name": "CardapioRa.Tests",
+  "rootNamespace": "CardapioRA.Tests",
+  "references": ["CardapioRa.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}
+

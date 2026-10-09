@@ -1,0 +1,59 @@
+{
+  "items": [
+    {
+      "id": "prato_001",
+      "markerId": "marker_prato_001",
+      "name": "Risoto de cogumelos",
+      "description": "Arroz arboreo, cogumelos frescos e parmesao.",
+      "modelResource": "Models/prato_001",
+      "price": 49.90,
+      "servingSizeGrams": 350,
+      "nutrition": {
+        "energyKcal": 520,
+        "carbohydratesGrams": 72,
+        "proteinGrams": 16,
+        "totalFatGrams": 19,
+        "fiberGrams": 5,
+        "sodiumMilligrams": 680
+      },
+      "allergens": ["leite"]
+    },
+    {
+      "id": "prato_002",
+      "markerId": "marker_prato_002",
+      "name": "Frango grelhado",
+      "description": "File de frango, arroz integral e legumes.",
+      "modelResource": "Models/prato_002",
+      "price": 42.00,
+      "servingSizeGrams": 420,
+      "nutrition": {
+        "energyKcal": 480,
+        "carbohydratesGrams": 48,
+        "proteinGrams": 46,
+        "totalFatGrams": 12,
+        "fiberGrams": 7,
+        "sodiumMilligrams": 590
+      },
+      "allergens": []
+    },
+    {
+      "id": "prato_003",
+      "markerId": "marker_prato_003",
+      "name": "Penne ao molho pesto",
+      "description": "Massa, manjericao, azeite, castanhas e queijo.",
+      "modelResource": "Models/prato_003",
+      "price": 45.50,
+      "servingSizeGrams": 380,
+      "nutrition": {
+        "energyKcal": 610,
+        "carbohydratesGrams": 79,
+        "proteinGrams": 19,
+        "totalFatGrams": 24,
+        "fiberGrams": 6,
+        "sodiumMilligrams": 720
+      },
+      "allergens": ["gluten", "leite", "castanhas"]
+    }
+  ]
+}
+
