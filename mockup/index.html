@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4efe5" />
+    <title>DegustAR — Protótipo navegável</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <main class="app-shell" aria-live="polite">
+      <header class="topbar">
+        <button class="brand" data-nav="home" aria-label="Voltar ao início">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M15 8v14c0 4.5 3.7 8.2 8.2 8.2H25V40M9 8v10m6-10v10M9 18h6M33 8v32M33 8c7 4 8 13 0 18"/></svg>
+          </span>
+          <span><strong>DegustAR</strong><small>escolha com os olhos abertos</small></span>
+        </button>
+        <div class="top-actions">
+          <span class="prototype-badge"><i></i> Protótipo</span>
+          <button class="icon-button" id="help-button" aria-label="Abrir ajuda">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 0 1 4.4 1c0 2-2.2 2.1-2.2 3.7M12 17h.01"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section id="view" class="view"></section>
+
+      <nav class="bottom-nav" aria-label="Navegação principal">
+        <button data-nav="home" class="nav-item active">
+          <svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+          <span>Início</span>
+        </button>
+        <button data-nav="scan" class="nav-item scan-nav">
+          <span class="scan-nav-icon"><svg viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <span>Escanear</span>
+        </button>
+        <button data-nav="survey" class="nav-item">
+          <svg viewBox="0 0 24 24"><path d="M7 3h10a2 2 0 0 1 2 2v16l-7-3-7 3V5a2 2 0 0 1 2-2z"/><path d="m9 10 2 2 4-4"/></svg>
+          <span>Avaliar</span>
+        </button>
+      </nav>
+    </main>
+
+    <dialog id="help-dialog" class="help-dialog">
+      <button class="dialog-close" id="close-help" aria-label="Fechar">×</button>
+      <p class="eyebrow">GUIA DE GRAVAÇÃO</p>
+      <h2>Fluxo sugerido para o pitch</h2>
+      <ol>
+        <li>Mostre o catálogo e selecione um prato.</li>
+        <li>Volte e abra <strong>Escanear etiqueta</strong>.</li>
+        <li>Clique em <strong>Simular leitura</strong> e aguarde.</li>
+        <li>Explore o modelo, nutrientes e alergênicos.</li>
+        <li>Finalize mostrando o questionário SUS.</li>
+      </ol>
+      <p class="dialog-note">Dica: pressione <kbd>Esc</kbd> para fechar esta janela.</p>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
