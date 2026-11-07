@@ -72,27 +72,26 @@ function homeView() {
   return `
     <div class="hero">
       <div>
-        <p class="eyebrow">CARDÁPIO EM REALIDADE AUMENTADA</p>
-        <h1>Conheça o prato antes da primeira garfada.</h1>
-        <p class="lead">Visualize cada opção em 3D e consulte informações nutricionais e alergênicos antes de fazer seu pedido.</p>
+        <h1>Cardápio com pratos em 3D e informação nutricional.</h1>
+        <p class="lead">Aponte a câmera para a etiqueta do prato para ver o modelo, a porção, os nutrientes e os alergênicos.</p>
         <div class="hero-actions">
           <button class="primary-button" data-nav="scan">${scanIcon} Escanear etiqueta</button>
           <button class="secondary-button" id="explore-menu">Explorar cardápio ${arrow}</button>
         </div>
       </div>
       <div class="hero-visual">
-        ${plate()}
-        <div class="floating-tag">520 kcal<small>porção de 350 g</small></div>
+        <img src="assets/models/risotto/thumbnail.jpg" alt="Risoto servido em prato branco" />
+        <div class="hero-dish-caption"><strong>Risoto de cogumelos</strong><span>R$ 49,90 · 350 g · 520 kcal</span></div>
       </div>
     </div>
     <div id="menu-section" class="section-head">
-      <div><p class="eyebrow">SELEÇÃO DO CHEF</p><h2>Pratos disponíveis</h2></div>
-      <p>${dishes.length} opções no protótipo</p>
+      <div><h2>Pratos do cardápio</h2></div>
+      <p>${dishes.length} opções cadastradas</p>
     </div>
     <div class="dish-grid">
       ${dishes.map((dish, index) => `
         <article class="dish-card" data-dish="${dish.id}" tabindex="0" role="button" aria-label="Ver ${dish.name}">
-          <div class="dish-art"><span class="dish-number">0${index + 1}</span>${plate(dish.className)}</div>
+          <div class="dish-art ${dish.id === "risoto" ? "has-photo" : ""}"><span class="dish-number">0${index + 1}</span>${dish.id === "risoto" ? `<img src="assets/models/risotto/thumbnail.jpg" alt="${dish.name}" />` : plate(dish.className)}</div>
           <div class="dish-content">
             <h3>${dish.name}</h3><p>${dish.description}</p>
             <div class="dish-meta"><span class="dish-price">${money(dish.price)}</span><span class="dish-kcal">${dish.nutrition.Energia}</span></div>
@@ -103,7 +102,7 @@ function homeView() {
 
 function scanView() {
   return `
-    <div class="screen-header"><button class="back-button" data-nav="home">${back}</button><div><p class="eyebrow">RECONHECIMENTO DE IMAGEM</p><h2>Escanear etiqueta</h2></div></div>
+    <div class="screen-header"><button class="back-button" data-nav="home">${back}</button><div><h2>Escanear etiqueta</h2><p>A leitura abaixo é simulada nesta versão.</p></div></div>
     <div class="scanner-layout">
       <div class="camera" id="camera">
         <div class="camera-copy"><strong>Posicione a etiqueta no centro</strong><span>mantenha o celular estável</span></div>
@@ -112,8 +111,8 @@ function scanView() {
         <button class="primary-button camera-action" id="simulate-scan">${scanIcon}<span>Simular leitura</span></button>
       </div>
       <aside class="scan-sidebar">
-        <div class="info-card"><p class="eyebrow">COMO FUNCIONA</p><h3>Da etiqueta ao prato</h3><ol class="steps"><li>A câmera identifica o marcador.</li><li>O catálogo localiza o prato associado.</li><li>O modelo e os dados aparecem juntos.</li></ol></div>
-        <div class="info-card"><h3>Demonstração segura</h3><p>Esta tela simula o fluxo de reconhecimento para apresentar a experiência proposta sem depender da câmera ou do rastreamento real.</p></div>
+        <div class="info-card"><h3>Após a leitura</h3><ol class="steps"><li>A câmera identifica o marcador.</li><li>O catálogo localiza o prato associado.</li><li>O modelo e os dados aparecem juntos.</li></ol></div>
+        <div class="info-card simulation-note"><h3>Nesta versão</h3><p>O botão simula a câmera para demonstrar o fluxo enquanto o rastreamento real ainda está em desenvolvimento.</p></div>
       </aside>
     </div>`;
 }
@@ -133,12 +132,12 @@ function detailView() {
     ? `<canvas id="dish-model" aria-label="Modelo tridimensional real do risoto"></canvas><div class="model-loading" id="model-loading"><span></span>Carregando modelo 3D</div>`
     : plate(dish.className);
   return `
-    <div class="screen-header"><button class="back-button" data-nav="home">${back}</button><div><p class="eyebrow">PRATO RECONHECIDO</p><h2>Detalhes do prato</h2></div></div>
+    <div class="screen-header"><button class="back-button" data-nav="home">${back}</button><div><h2>Detalhes do prato</h2><p>Etiqueta associada ao catálogo.</p></div></div>
     <div class="dish-detail">
       <div class="ar-stage ${dish.id === "risoto" ? "real-model-stage" : ""}">${stageContent}<p class="stage-hint">${dish.id === "risoto" ? `Arraste para girar • use a roda para aproximar<br><a href="https://poly.cam/capture/d9fc177c-d6a8-453c-8fdd-23637a745e2a" target="_blank" rel="noreferrer">Modelo de BeguilingShadowstalker2310 via Polycam</a>` : "Modelo ilustrativo • visualização simulada em 3D"}</p></div>
       <div class="detail-copy">
-        <p class="eyebrow">ENCONTRADO COM SUCESSO</p><h1>${dish.name}</h1>
-        <div class="price-row"><strong>${money(dish.price)}</strong><span class="serving">porção de ${dish.serving} g</span></div>
+        <p class="recognition-status">Etiqueta reconhecida</p><h1>${dish.name}</h1>
+        <div class="price-row"><strong>${money(dish.price)}</strong><span class="serving">Porção de ${dish.serving} g</span></div>
         <p class="detail-description">${dish.description}</p>
         <div class="detail-tabs">
           <button class="detail-tab ${state.detailTab === "nutrition" ? "active" : ""}" data-tab="nutrition">Informação nutricional</button>
@@ -153,13 +152,13 @@ function detailView() {
 function surveyView() {
   const q = state.question;
   if (q >= susQuestions.length) {
-    return `<div class="survey-wrap"><div class="question-card completion"><div class="completion-icon">✓</div><p class="eyebrow">AVALIAÇÃO CONCLUÍDA</p><h2>Obrigado pela sua opinião.</h2><p class="lead" style="margin-inline:auto">As respostas do questionário SUS ajudam a medir a percepção de usabilidade do protótipo.</p><button class="primary-button" data-nav="home">Voltar ao início</button></div></div>`;
+    return `<div class="survey-wrap"><div class="question-card completion"><div class="completion-icon">✓</div><h2>Avaliação concluída</h2><p class="lead" style="margin-inline:auto">As respostas do questionário SUS ajudam a medir a percepção de usabilidade do protótipo.</p><button class="primary-button" data-nav="home">Voltar ao início</button></div></div>`;
   }
   const selected = state.answers[q];
   return `
     <div class="survey-wrap">
-      <div class="survey-intro"><div><p class="eyebrow">SYSTEM USABILITY SCALE</p><h1>Avalie sua experiência</h1><p>Responda pensando na interação que acabou de realizar.</p></div><div class="progress-label">${q + 1} de ${susQuestions.length}<div class="progress-track"><div class="progress-fill" style="width:${(q + 1) * 10}%"></div></div></div></div>
-      <div class="question-card"><span class="question-number">QUESTÃO ${String(q + 1).padStart(2, "0")}</span><h2>${susQuestions[q]}</h2>
+      <div class="survey-intro"><div><h1>Questionário SUS</h1><p>Avalie a usabilidade pensando na interação que acabou de realizar.</p></div><div class="progress-label">${q + 1} de ${susQuestions.length}<div class="progress-track"><div class="progress-fill" style="width:${(q + 1) * 10}%"></div></div></div></div>
+      <div class="question-card"><span class="question-number">Questão ${q + 1}</span><h2>${susQuestions[q]}</h2>
         <div class="scale">${[1,2,3,4,5].map(n => `<button class="${selected === n ? "selected" : ""}" data-answer="${n}"><strong>${n}</strong><small>${n === 1 ? "Discordo" : n === 5 ? "Concordo" : ""}</small></button>`).join("")}</div>
         <div class="question-actions"><button class="secondary-button" id="prev-question" ${q === 0 ? "disabled" : ""}>${back} Anterior</button><button class="primary-button" id="next-question" ${selected ? "" : "disabled"}>${q === 9 ? "Concluir" : "Próxima"} ${arrow}</button></div>
       </div>
