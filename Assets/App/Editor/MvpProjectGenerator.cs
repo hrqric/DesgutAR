@@ -30,7 +30,7 @@ namespace CardapioRA.Editor
             };
         }
 
-        [MenuItem("Cardapio RA/Preparar projeto MVP")]
+        [UnityEditor.MenuItem("Cardapio RA/Preparar projeto MVP")]
         public static void Prepare()
         {
             Directory.CreateDirectory("Assets/Scenes");
