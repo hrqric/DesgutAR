@@ -129,10 +129,13 @@ function detailPanel(dish) {
 
 function detailView() {
   const dish = state.selectedDish;
+  const stageContent = dish.id === "risoto"
+    ? `<canvas id="dish-model" aria-label="Modelo tridimensional real do risoto"></canvas><div class="model-loading" id="model-loading"><span></span>Carregando modelo 3D</div>`
+    : plate(dish.className);
   return `
     <div class="screen-header"><button class="back-button" data-nav="home">${back}</button><div><p class="eyebrow">PRATO RECONHECIDO</p><h2>Detalhes do prato</h2></div></div>
     <div class="dish-detail">
-      <div class="ar-stage">${plate(dish.className)}<p class="stage-hint">Modelo ilustrativo • visualização simulada em 3D</p></div>
+      <div class="ar-stage ${dish.id === "risoto" ? "real-model-stage" : ""}">${stageContent}<p class="stage-hint">${dish.id === "risoto" ? `Arraste para girar • use a roda para aproximar<br><a href="https://poly.cam/capture/d9fc177c-d6a8-453c-8fdd-23637a745e2a" target="_blank" rel="noreferrer">Modelo de BeguilingShadowstalker2310 via Polycam</a>` : "Modelo ilustrativo • visualização simulada em 3D"}</p></div>
       <div class="detail-copy">
         <p class="eyebrow">ENCONTRADO COM SUCESSO</p><h1>${dish.name}</h1>
         <div class="price-row"><strong>${money(dish.price)}</strong><span class="serving">porção de ${dish.serving} g</span></div>

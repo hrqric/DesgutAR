@@ -1,0 +1,119 @@
+ROTEIRO DO VÍDEO PITCH DEGUSTAR
+Duração estimada: 3 minutos e 40 segundos
+
+Antes de gravar, preencher:
+- Função ou responsabilidade de cada integrante.
+- Mês e ano previstos para a conclusão do projeto.
+
+============================================================
+0:00 A 0:25 — IDENTIFICAÇÃO DO PROJETO
+============================================================
+
+IMAGEM:
+Apresentador com a câmera ligada. Exibir um slide com o nome do projeto, da equipe e dos integrantes.
+
+FALA:
+Olá, somos a equipe DegustAR, formada por Juan Pedro Jeronimo Guillen, Erick Santana e Caue Henrique Ricardo.
+
+O DegustAR é um aplicativo de realidade aumentada para cardápios de restaurantes. Nossa proposta é permitir que o consumidor visualize o prato em três dimensões e consulte suas informações nutricionais antes de fazer o pedido.
+
+============================================================
+0:25 A 0:55 — PROBLEMA E PÚBLICO-ALVO
+============================================================
+
+IMAGEM:
+Mostrar um cardápio convencional e depois a captura 01-tela-inicial-cardapio.png.
+
+FALA:
+Nos cardápios tradicionais, o cliente geralmente encontra apenas uma descrição e, em alguns casos, uma fotografia. Essas informações podem não representar claramente a aparência, a porção e a composição nutricional do prato.
+
+Essa dificuldade afeta principalmente consumidores com restrições alimentares, objetivos relacionados à saúde ou interesse em fazer escolhas mais conscientes. Também representa um problema para restaurantes que desejam apresentar seus produtos com mais transparência e interatividade.
+
+============================================================
+0:55 A 1:20 — PROPOSTA DE SOLUÇÃO
+============================================================
+
+IMAGEM:
+Usar a captura 02-leitura-etiqueta.png.
+
+FALA:
+Para resolver esse problema, propomos um aplicativo que reconhece etiquetas associadas aos itens do cardápio. Ao apontar a câmera do celular para uma dessas etiquetas, o usuário visualiza uma representação tridimensional do prato e acessa informações como descrição, preço, nutrientes e alergênicos.
+
+O diferencial do DegustAR está em reunir, na mesma experiência, a visualização do prato e a informação nutricional no momento da decisão.
+
+============================================================
+1:20 A 2:35 — DEMONSTRAÇÃO DO PROTÓTIPO
+============================================================
+
+IMAGEM:
+Gravar a navegação no mockup. Complementar com as capturas 03-modelo-3d-nutrientes.png e 04-modelo-3d-alergenicos.png.
+
+FALA:
+Agora vamos demonstrar o principal fluxo de utilização do protótipo.
+
+Ao abrir o DegustAR, o usuário encontra os pratos cadastrados no cardápio. Para esta demonstração, vamos selecionar o risoto de cogumelos.
+
+Em uma utilização com realidade aumentada, o cliente aponta a câmera para a etiqueta correspondente ao prato. Nesta versão preliminar, simulamos essa leitura para representar o funcionamento proposto.
+
+Depois do reconhecimento, o sistema consulta o catálogo e apresenta o prato associado. Aqui podemos observar um modelo tridimensional real do risoto, que pode ser girado e aproximado. Essa visualização oferece uma referência mais completa do que uma descrição textual ou uma fotografia estática.
+
+Na mesma tela, o aplicativo apresenta o nome do prato, o preço, o tamanho da porção e informações como calorias, carboidratos, proteínas, gorduras, fibras e sódio.
+
+O usuário também pode acessar a área de alergênicos antes de fazer sua escolha. No caso do risoto, o catálogo informa a presença de leite.
+
+Dessa forma, o fluxo começa com o reconhecimento da etiqueta e termina com o acesso integrado às informações necessárias para a decisão.
+
+Por fim, o usuário pode responder ao questionário SUS, uma escala utilizada para avaliar a usabilidade do sistema.
+
+============================================================
+2:35 A 3:00 — ESTRUTURA E TECNOLOGIAS
+============================================================
+
+IMAGEM:
+Exibir os nomes ou logotipos do Unity, C#, AR Foundation, ARCore e Three.js.
+
+FALA:
+O protótipo principal foi desenvolvido em Unity, utilizando C# para a lógica da aplicação. O reconhecimento das etiquetas foi planejado com AR Foundation e ARCore em dispositivos Android.
+
+Para a apresentação do fluxo, também desenvolvemos este mockup navegável, que utiliza Three.js para exibir o modelo tridimensional do prato diretamente no navegador.
+
+A solução está organizada em componentes responsáveis pelo reconhecimento das imagens, consulta ao catálogo, apresentação do modelo tridimensional, exibição das informações e registro dos dados da avaliação.
+
+============================================================
+3:00 A 3:25 — PLANEJAMENTO
+============================================================
+
+IMAGEM:
+Apresentar uma linha do tempo simples com as próximas etapas.
+
+FALA:
+Nas próximas etapas, a equipe pretende concluir a configuração das etiquetas para o rastreamento em dispositivos, integrar os modelos tridimensionais ao aplicativo Unity e realizar testes com usuários.
+
+A avaliação deverá comparar o DegustAR com o cardápio convencional, considerando o tempo de decisão, a taxa de sucesso, a pontuação SUS, as dificuldades observadas e os relatos dos participantes. A previsão de conclusão é [INFORMAR MÊS E ANO].
+
+============================================================
+3:25 A 3:45 — CONCLUSÃO
+============================================================
+
+IMAGEM:
+Apresentador retorna à câmera. Mostrar o logotipo do DegustAR e a captura 05-questionario-sus.png como apoio.
+
+FALA:
+Em síntese, o DegustAR busca tornar a escolha de pratos mais visual, informativa e consciente. A solução pode beneficiar consumidores que desejam compreender melhor o que estão escolhendo e restaurantes interessados em oferecer uma experiência mais transparente e interativa.
+
+Este é o DegustAR. Obrigado pela atenção.
+
+============================================================
+ORDEM SUGERIDA PARA A GRAVAÇÃO DO PROTÓTIPO
+============================================================
+
+1. Mostrar a tela inicial e os três pratos.
+2. Clicar em Escanear etiqueta.
+3. Clicar em Simular leitura e aguardar o reconhecimento.
+4. Girar o modelo 3D do risoto.
+5. Mostrar a informação nutricional.
+6. Abrir a área de alergênicos.
+7. Clicar em Avaliar experiência.
+8. Selecionar uma resposta no questionário SUS.
+
+Observação: não afirmar que o rastreamento de realidade aumentada e os resultados de usabilidade já foram validados. A leitura da etiqueta é simulada no mockup e a avaliação com usuários ainda deverá ser realizada.
