@@ -32,35 +32,66 @@ namespace CardapioRA
             activeModel.transform.localRotation = Quaternion.identity;
             activeModel.transform.localScale = Vector3.one;
 
+            // Marcadores: o prato nasce so com a etiqueta (escala do anchor = 1 em RA real).
             if (prefab != null)
                 FitToTargetSize(activeModel.transform);
         }
 
-        // Modelos escaneados chegam em escalas arbitrarias: ajusta para ~12 cm e apoia na etiqueta.
+        // Largura alvo do prato, em unidades do anchor. A etiqueta mede 0,12 m, entao o prato
+        // fica quase do tamanho dela, qualquer que seja o tamanho real em que ela aparece na tela.
+        private const float TargetSize = 0.11f;
+
+        // Modelos escaneados chegam em escalas arbitrarias: ajusta o tamanho e apoia o prato no centro
+        // da etiqueta. Tudo e calculado no espaco local do modelo (e nao do mundo), porque a etiqueta
+        // pode estar inclinada ou de pe, e a orientacao do mundo nao serve de referencia.
         private static void FitToTargetSize(Transform model)
         {
-            var targetSizeMeters = 0.12f * model.parent.lossyScale.x;
-
-            var renderers = model.GetComponentsInChildren<Renderer>();
-            if (renderers.Length == 0)
+            if (!TryGetLocalBounds(model, out var bounds))
                 return;
-
-            var bounds = renderers[0].bounds;
-            for (var i = 1; i < renderers.Length; i++)
-                bounds.Encapsulate(renderers[i].bounds);
 
             var largest = Mathf.Max(bounds.size.x, bounds.size.y, bounds.size.z);
             if (largest <= 0.0001f)
                 return;
 
-            model.localScale *= targetSizeMeters / largest;
+            var scale = TargetSize / largest;
+            model.localScale = Vector3.one * scale;
 
-            bounds = renderers[0].bounds;
-            for (var i = 1; i < renderers.Length; i++)
-                bounds.Encapsulate(renderers[i].bounds);
+            var bottomCenter = new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+            model.localPosition = new Vector3(0f, 0.005f, 0f) - bottomCenter * scale;
 
-            var offset = model.parent.position - new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
-            model.position += offset + Vector3.up * 0.005f;
+            Debug.Log($"[DishPresenter] {model.name}: tamanho original {largest:0.###}, escala {scale:0.###}, anchor lossyScale {model.parent.lossyScale}");
+        }
+
+        private static bool TryGetLocalBounds(Transform root, out Bounds bounds)
+        {
+            bounds = default;
+            var found = false;
+
+            foreach (var filter in root.GetComponentsInChildren<MeshFilter>())
+            {
+                if (filter.sharedMesh == null)
+                    continue;
+
+                var meshBounds = filter.sharedMesh.bounds;
+                for (var i = 0; i < 8; i++)
+                {
+                    var sign = new Vector3((i & 1) == 0 ? -1f : 1f, (i & 2) == 0 ? -1f : 1f, (i & 4) == 0 ? -1f : 1f);
+                    var corner = meshBounds.center + Vector3.Scale(meshBounds.extents, sign);
+                    var point = root.InverseTransformPoint(filter.transform.TransformPoint(corner));
+
+                    if (!found)
+                    {
+                        bounds = new Bounds(point, Vector3.zero);
+                        found = true;
+                    }
+                    else
+                    {
+                        bounds.Encapsulate(point);
+                    }
+                }
+            }
+
+            return found;
         }
 
         private static GameObject CreatePlaceholder(MenuItem item, Transform anchor)
