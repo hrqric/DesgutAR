@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
+  m_Name: MenuReferenceImages
+  m_EditorClassIdentifier: Unity.XR.ARSubsystems::UnityEngine.XR.ARSubsystems.XRReferenceImageLibrary
+  m_GuidLow: 5674757633279672647
+  m_GuidHigh: 10780797852470521265
+  m_DataStore:
+    m_Storage: []
+  m_Images:
+  - m_SerializedGuid:
+      m_GuidLow: 5711116692631853959
+      m_GuidHigh: 7855286783618697372
+    m_SerializedTextureGuid:
+      m_GuidLow: 4604045441315543022
+      m_GuidHigh: 7891273765261771322
+    m_Size: {x: 0.12, y: 0.12}
+    m_SpecifySize: 1
+    m_Name: marker_prato_001
+    m_Texture: {fileID: 2800000, guid: 835e97eedaef3fe43a82c903ae6f836d, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 4829898460435721650
+      m_GuidHigh: 9260756433756469407
+    m_SerializedTextureGuid:
+      m_GuidLow: 12016886016841805274
+      m_GuidHigh: 16260523784151925482
+    m_Size: {x: 0.12, y: 0.12}
+    m_SpecifySize: 1
+    m_Name: marker_prato_002
+    m_Texture: {fileID: 2800000, guid: 0436edda8e2aa6c4ea822ad03afca8e1, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 4663575344280026616
+      m_GuidHigh: 12500396630310744223
+    m_SerializedTextureGuid:
+      m_GuidLow: 222060957840405564
+      m_GuidHigh: 1480933738794604939
+    m_Size: {x: 0.12, y: 0.12}
+    m_SpecifySize: 1
+    m_Name: marker_prato_003
+    m_Texture: {fileID: 2800000, guid: be8f743ceb4303148b59be9c63558d14, type: 3}

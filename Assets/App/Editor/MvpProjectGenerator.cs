@@ -1,9 +1,11 @@
 using System.IO;
 using CardapioRA;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.SceneManagement;
 using UnityEditor.XR.Management;
 using UnityEditor.XR.Management.Metadata;
+using UnityEditor.XR.ARSubsystems;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
@@ -16,6 +18,8 @@ namespace CardapioRA.Editor
     {
         private const string ScenePath = "Assets/Scenes/Mvp.unity";
         private const string LibraryPath = "Assets/App/Resources/MenuReferenceImages.asset";
+        private const string MarkerDirectory = "Assets/App/Resources/Markers";
+        private const float MarkerWidthMeters = 0.12f;
 
         [InitializeOnLoadMethod]
         private static void PrepareNewCheckout()
@@ -61,6 +65,13 @@ namespace CardapioRA.Editor
             camera.backgroundColor = new Color(0.08f, 0.10f, 0.13f);
             cameraObject.AddComponent<ARCameraManager>();
             cameraObject.AddComponent<ARCameraBackground>();
+
+            // Faz a camera virtual acompanhar o movimento real do celular (sem isso a RA nao fica ancorada).
+            var poseDriver = cameraObject.AddComponent<UnityEngine.InputSystem.XR.TrackedPoseDriver>();
+            poseDriver.positionInput = new UnityEngine.InputSystem.InputActionProperty(
+                new UnityEngine.InputSystem.InputAction("Position", binding: "<HandheldARInputDevice>/devicePosition", expectedControlType: "Vector3"));
+            poseDriver.rotationInput = new UnityEngine.InputSystem.InputActionProperty(
+                new UnityEngine.InputSystem.InputAction("Rotation", binding: "<HandheldARInputDevice>/deviceRotation", expectedControlType: "Quaternion"));
             origin.Camera = camera;
 
             var imageManager = originObject.AddComponent<ARTrackedImageManager>();
@@ -111,11 +122,96 @@ namespace CardapioRA.Editor
 
         private static void EnsureReferenceLibrary()
         {
-            if (AssetDatabase.LoadAssetAtPath<XRReferenceImageLibrary>(LibraryPath) != null)
-                return;
+            Directory.CreateDirectory(MarkerDirectory);
 
-            var library = ScriptableObject.CreateInstance<XRReferenceImageLibrary>();
-            AssetDatabase.CreateAsset(library, LibraryPath);
+            var library = AssetDatabase.LoadAssetAtPath<XRReferenceImageLibrary>(LibraryPath);
+            if (library == null)
+            {
+                library = ScriptableObject.CreateInstance<XRReferenceImageLibrary>();
+                AssetDatabase.CreateAsset(library, LibraryPath);
+            }
+
+            var markerNames = new[] { "marker_prato_001", "marker_prato_002", "marker_prato_003", "marker_prato_004" };
+            for (var i = 0; i < markerNames.Length; i++)
+            {
+                if (ContainsImage(library, markerNames[i]))
+                    continue;
+
+                var texture = CreateMarkerTextureAsset(markerNames[i], i);
+                library.Add();
+                var index = library.count - 1;
+                library.SetTexture(index, texture, true);
+                library.SetName(index, markerNames[i]);
+                library.SetSpecifySize(index, true);
+                library.SetSize(index, new Vector2(MarkerWidthMeters, MarkerWidthMeters));
+            }
+
+            EditorUtility.SetDirty(library);
+        }
+
+        private static bool ContainsImage(XRReferenceImageLibrary library, string imageName)
+        {
+            for (var i = 0; i < library.count; i++)
+            {
+                if (library[i].name == imageName)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static Texture2D CreateMarkerTextureAsset(string markerName, int variant)
+        {
+            var assetPath = $"{MarkerDirectory}/{markerName}.png";
+            var existing = AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+            if (existing != null)
+                return existing;
+
+            const int size = 512;
+            const int cells = 8;
+            var texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
+            {
+                name = markerName,
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp
+            };
+
+            var pixels = new Color32[size * size];
+            for (var y = 0; y < size; y++)
+            {
+                for (var x = 0; x < size; x++)
+                {
+                    var cellX = x * cells / size;
+                    var cellY = y * cells / size;
+                    var border = cellX == 0 || cellY == 0 || cellX == cells - 1 || cellY == cells - 1;
+                    var finder = IsFinderCell(cellX, cellY);
+                    var bit = ((cellX * 17 + cellY * 31 + variant * 13) ^ (cellX * cellY * 7)) % 5 < 2;
+                    pixels[y * size + x] = border || finder || bit
+                        ? new Color32(20, 20, 24, 255)
+                        : new Color32(245, 242, 232, 255);
+                }
+            }
+
+            texture.SetPixels32(pixels);
+            texture.Apply(false, false);
+            File.WriteAllBytes(assetPath, texture.EncodeToPNG());
+            Object.DestroyImmediate(texture);
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceSynchronousImport);
+
+            var importer = (TextureImporter)AssetImporter.GetAtPath(assetPath);
+            importer.textureCompression = TextureImporterCompression.Uncompressed;
+            importer.filterMode = FilterMode.Point;
+            importer.mipmapEnabled = false;
+            importer.SaveAndReimport();
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
+        }
+
+        private static bool IsFinderCell(int x, int y)
+        {
+            var topLeft = x is >= 1 and <= 2 && y is >= 1 and <= 2;
+            var topRight = x is >= 5 and <= 6 && y is >= 1 and <= 2;
+            var bottomLeft = x is >= 1 and <= 2 && y is >= 5 and <= 6;
+            return topLeft || topRight || bottomLeft;
         }
     }
 }

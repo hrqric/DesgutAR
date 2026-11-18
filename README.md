@@ -16,7 +16,7 @@ Disciplina: UPX — Realidade Aumentada. A equipe deve acrescentar nome da equip
 
 | ID | Funcionalidade | Situação no código |
 |---|---|---|
-| RF01 | Reconhecimento de imagem e associação ao prato | 🚧 Implementação presente; depende de imagens de referência e teste em dispositivo |
+| RF01 | Reconhecimento de imagem e associação ao prato | ✅ Biblioteca e etiquetas geradas automaticamente; teste em dispositivo ainda necessário |
 | RF02 | Apresentação 3D do prato | 🚧 Usa objetos geométricos temporários quando não há modelo próprio |
 | RF03 | Exibição de preço, descrição, nutrientes e alergênicos | ✅ Implementada no código |
 | RF04 | Simulação de seleção de pratos | ✅ Implementada no código |
@@ -80,10 +80,21 @@ A abordagem é **image tracking**. O `ARTrackedImageManager` comunica imagens ad
 
 3. Aguarde a importação e a restauração dos pacotes. No editor, escolha **Cardapio RA > Preparar projeto MVP**.
 4. Abra `Assets/Scenes/Mvp.unity` e pressione Play. Use os botões de simulação para selecionar os pratos.
-5. Para RA real, importe as imagens das etiquetas e adicione-as a `Assets/App/Resources/MenuReferenceImages.asset`, com os nomes `marker_prato_001`, `marker_prato_002` e `marker_prato_003`. Informe a largura física de cada imagem em metros.
+5. Para RA real, imprima as etiquetas geradas em `Assets/App/Resources/Markers/` com 12 cm de largura. A biblioteca `MenuReferenceImages.asset` é preenchida automaticamente com `marker_prato_001` a `marker_prato_004` ao preparar o projeto.
 6. Selecione Android nas configurações de build, gere e instale o aplicativo em dispositivo compatível com ARCore e conceda acesso à câmera quando solicitado.
 
-Para substituir as geometrias temporárias, adicione prefabs em `Assets/App/Resources/Models` com os nomes correspondentes a `modelResource` no catálogo.
+Para substituir as geometrias temporárias, adicione prefabs em `Assets/App/Resources/Models` com os nomes correspondentes a `modelResource` no catálogo. O app ajusta o tamanho dos modelos (cerca de 12 cm) e os apoia sobre a etiqueta.
+
+### Cardápio e modelos 3D
+
+| Prato | Etiqueta | Modelo (`Resources/Models/`) | Captura Polycam |
+|---|---|---|---|
+| Zinger Burger | `marker_prato_001` | `prato_001` | autor alextench |
+| Pizza de pepperoni | `marker_prato_002` | `prato_002` | autor slyfox04 |
+| Cookie de chocolate | `marker_prato_003` | `prato_003` | autor EmaColo2000 |
+| Ramen apimentado | `marker_prato_004` | `prato_004` | autor XEO1 |
+
+Os modelos são capturas de terceiros do Polycam, exportadas pela equipe. Confira a licença de cada captura e mantenha os créditos aos autores. Preços e valores nutricionais do catálogo são estimativas de demonstração.
 
 ## Como utilizar
 
@@ -97,7 +108,7 @@ Os eventos são gravados em `Application.persistentDataPath/experiment-events.js
 
 Existe teste automatizado de cálculo SUS em `Assets/App/Tests/EditMode/SusCalculatorTests.cs`. Execute-o no Unity Test Runner, em Edit Mode. Não há resultado de execução ou registro de testes em dispositivo confirmado nesta documentação.
 
-Os modelos são temporários, as etiquetas precisam ser cadastradas e a compatibilidade, o rastreamento e o desempenho em aparelhos reais ainda precisam ser comprovados. Não há dispositivos testados identificados nos arquivos examinados.
+Os modelos dos pratos 2 e 3 ainda são temporários. A compatibilidade, o rastreamento e o desempenho em aparelhos reais ainda precisam ser comprovados. Não há dispositivos testados identificados nos arquivos examinados.
 
 ## Pendências para entrega
 

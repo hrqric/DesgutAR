@@ -3,9 +3,12 @@
   "rootNamespace": "CardapioRA.Editor",
   "references": [
     "CardapioRa.Runtime",
+    "Unity.InputSystem",
     "Unity.XR.ARFoundation",
     "Unity.XR.ARSubsystems",
+    "Unity.XR.ARSubsystems.Editor",
     "Unity.XR.CoreUtils",
+    "Unity.XR.Management",
     "Unity.XR.Management.Editor"
   ],
   "includePlatforms": ["Editor"],

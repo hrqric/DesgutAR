@@ -45,14 +45,24 @@ namespace CardapioRA
                 simulationAnchor = anchor.transform;
             }
 
+            // Na simulacao a camera fica a ~2 m do prato; amplia para ficar visivel no editor.
+            // Na RA real o anchor e o da etiqueta (escala 1), entao o prato fica com ~12 cm.
+            simulationAnchor.localScale = Vector3.one * 6f;
+
             if (arTracker != null)
+            {
                 arTracker.MarkerTracked += OnMarkerTracked;
+                arTracker.MarkerLost += OnMarkerLost;
+            }
         }
 
         private void OnDestroy()
         {
             if (arTracker != null)
+            {
                 arTracker.MarkerTracked -= OnMarkerTracked;
+                arTracker.MarkerLost -= OnMarkerLost;
+            }
         }
 
         private void OnMarkerTracked(string markerId, Transform anchor)
@@ -65,6 +75,14 @@ namespace CardapioRA
             }
 
             SelectDish(item, anchor, "ar_marker");
+        }
+
+        private void OnMarkerLost(string markerId)
+        {
+            presenter.Hide();
+            selected = null;
+            status = "Etiqueta perdida. Aponte a camera novamente.";
+            recorder.Record("marker_lost", value: markerId);
         }
 
         private void SelectDish(MenuItem item, Transform anchor, string source)

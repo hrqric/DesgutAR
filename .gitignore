@@ -11,3 +11,6 @@
 *.apk
 *.aab
 
+
+# Modelos 3D originais (copias ficam em Assets/App/Resources/Models)
+/3d/
