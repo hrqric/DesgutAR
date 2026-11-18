@@ -28,6 +28,8 @@ namespace CardapioRA
         private MenuItem selected;
         private Vector2 scroll;
         private bool showSus;
+        // No editor a simulacao e o modo principal; no celular o modo principal e a camera de RA.
+        private bool showSimulation = Application.isEditor;
         private int susQuestion;
         private int[] susAnswers = new int[10];
         private string status = "Aponte a camera para uma etiqueta ou use a simulacao.";
@@ -104,8 +106,12 @@ namespace CardapioRA
             var width = Screen.width / scale;
             var height = Screen.height / scale;
 
-            GUI.Box(new Rect(16, 16, 360, height - 32), "Cardapio RA");
-            GUILayout.BeginArea(new Rect(32, 50, 328, height - 82));
+            // Painel compacto no modo RA, para nao cobrir a camera.
+            var compact = !showSus && !showSimulation;
+            var boxHeight = compact ? (selected == null ? 190f : 400f) : height - 32;
+
+            GUI.Box(new Rect(16, 16, 360, boxHeight), "Cardapio RA");
+            GUILayout.BeginArea(new Rect(32, 50, 328, boxHeight - 50));
             GUILayout.Label(status);
             GUILayout.Space(10);
 
@@ -120,15 +126,17 @@ namespace CardapioRA
 
         private void DrawMenu()
         {
-            GUILayout.Label("SIMULACAO DE MARCADOR");
-            scroll = GUILayout.BeginScrollView(scroll, GUILayout.Height(170));
-            foreach (var item in catalog.Items)
+            if (showSimulation)
             {
-                if (GUILayout.Button(item.name, GUILayout.Height(42)))
-                    SelectDish(item, simulationAnchor, "editor_simulation");
+                GUILayout.Label("SIMULACAO DE MARCADOR");
+                scroll = GUILayout.BeginScrollView(scroll, GUILayout.Height(170));
+                foreach (var item in catalog.Items)
+                {
+                    if (GUILayout.Button(item.name, GUILayout.Height(42)))
+                        SelectDish(item, simulationAnchor, "editor_simulation");
+                }
+                GUILayout.EndScrollView();
             }
-            GUILayout.EndScrollView();
-
             if (selected != null)
             {
                 GUILayout.Space(12);
@@ -145,6 +153,16 @@ namespace CardapioRA
             }
 
             GUILayout.FlexibleSpace();
+            if (GUILayout.Button(showSimulation ? "Voltar para a camera (RA)" : "Usar simulacao", GUILayout.Height(34)))
+            {
+                showSimulation = !showSimulation;
+                presenter.Hide();
+                selected = null;
+                status = showSimulation
+                    ? "Simulacao: escolha um prato na lista."
+                    : "Aponte a camera para uma etiqueta do cardapio.";
+            }
+
             if (GUILayout.Button("Responder questionario SUS", GUILayout.Height(46)))
             {
                 showSus = true;
